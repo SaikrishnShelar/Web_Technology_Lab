@@ -1,0 +1,201 @@
+// client.php
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2 id="op">Notification center</h2>
+    <form>
+        Name: <input type="text" name="name" id="name">
+        Roll no: <input type="number" name="roll" id="roll">
+        Age: <input type="number" name="age" id="age">
+        <button type="button" id="btn">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById("btn").addEventListener("click",()=>{
+            let name=document.getElementById("name").value;
+            let roll=document.getElementById("roll").value;
+            let age=document.getElementById("age").value;
+
+            if(name=="" || roll=="" || age=="")
+            {
+                document.getElementById("op").textContent="All fields are required !";
+                   setTimeout(() => {
+                    document.getElementById("op").textContent="Notification center";
+                }, 3000);
+                return;
+            }
+
+            let data={
+                name:name,
+                roll:roll,
+                age:age
+            }
+            
+            fetch("create.php",{
+                method:"POST",
+                headers:{
+                    'content-type':'application/json'
+                },
+                body:JSON.stringify(data)
+            })
+            .then(res=>{return res.text()})
+            .then(res=>{
+                document.getElementById("op").textContent=res;
+                   setTimeout(() => {
+                    document.getElementById("op").textContent="Notification center";
+                }, 3000);
+            })
+        })
+    </script>
+</body>
+</html>
+
+
+//create.php
+
+<?php
+include 'db.php';
+$raw_data=file_get_contents("php://input");
+$data=json_decode($raw_data,true);
+
+$name=$data['name'];
+$roll=$data['roll'];
+$age=$data['age'];
+
+// $name=$_POST['name'];
+// $roll=$_POST['roll'];
+// $age=$_POST['age'];
+
+// $sql="insert into student (name,roll,age) values ('$name',$roll,$age)";
+$sql="insert into student (name,roll,age) values ('".$name."',".$roll.",".$age.")";
+
+$result=$conn->query($sql);
+
+if($result==TRUE)
+{
+    echo("Data added successfully");
+}else{
+    echo("error :".$conn->error);
+}
+
+?>
+
+//db.php
+
+<?php
+$servername="localhost";
+$username= "root";
+$password="";
+$database="curd";
+
+$conn=new mysqli($servername,$username,$password,$database);
+
+
+
+if(!$conn){
+    die("sorry failed to connect".mysqli_connect_error());
+}
+else{
+    echo"connection was successful<br>";
+}
+
+//delete.php
+
+<?php
+include 'db.php';
+
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+
+    $sql = "DELETE FROM student WHERE ID=$id";
+    if ($conn->query($sql) === TRUE) {
+        header("Location: read.php");
+        exit;
+    } else {
+        echo "Error: " . $conn->error;
+    }
+} else {
+    echo "No ID provided";
+}
+
+$conn->close();
+?>
+
+//read.php
+
+<?php
+include 'db.php';
+
+$sql = "SELECT * FROM student";
+$result = $conn->query($sql);
+
+// Check if query failed
+if ($result === false) {
+    die("Query failed: " . $conn->error);
+}
+
+if ($result->num_rows > 0) {
+    echo "<table border='1'>
+            <tr><th>ID</th><th>Name</th><th>Roll no</th><th>Age</th><th>Action</th></tr>";
+    while ($row = $result->fetch_assoc()) {
+        echo "<tr>
+                <td>".$row['ID']."</td>
+                <td>".$row['name']."</td>
+                <td>".$row['roll']."</td>
+                <td>".$row['age']."</td>
+                <td>
+                    <a href='update.php?id=".$row['ID']."'>Edit</a> |
+                    <a href='delete.php?id=".$row['ID']."'>Delete</a>
+                </td>
+              </tr>";
+    }
+    echo "</table>";
+} else {
+    echo "0 results";
+}
+?>
+
+//update.php
+
+<?php
+include 'db.php';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $id   = $_POST['id'];
+    $name = $_POST['name'];
+    $roll = $_POST['roll'];
+    $age  = $_POST['age'];
+
+    $sql = "UPDATE student SET name='$name', roll=$roll, age=$age WHERE id=$id";
+    if ($conn->query($sql) === TRUE) {
+        header("Location: read.php");
+        exit;
+    } else {
+        echo "Error: " . $conn->error;
+    }
+    exit;
+}
+
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+    $result = $conn->query("SELECT * FROM student WHERE ID=$id");
+    $row = $result->fetch_assoc();
+?>
+    <form method="post" action="update.php">
+        <input type="hidden" name="id" value="<?php echo $row['ID']; ?>">
+        Name: <input type="text" name="name" value="<?php echo $row['name']; ?>"><br>
+        Roll: <input type="number" name="roll" value="<?php echo $row['roll']; ?>"><br>
+        Age: <input type="number" name="age" value="<?php echo $row['age']; ?>"><br>
+        <button type="submit">Update</button>
+    </form>
+<?php
+}
+$conn->close();
+?>
+
