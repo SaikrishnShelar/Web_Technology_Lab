@@ -1,0 +1,206 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TypeScript - Short Notes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f8f9fb;
+      color: #222;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: #1e3a8a;
+      color: white;
+      padding: 1.5rem 0;
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: 600;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 2rem auto;
+      background: white;
+      padding: 2rem 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    h2 {
+      color: #1e3a8a;
+      border-left: 4px solid #1e3a8a;
+      padding-left: 10px;
+      margin-top: 1.5rem;
+    }
+
+    h3 {
+      color: #333;
+      margin-top: 1rem;
+    }
+
+    code {
+      background: #f1f3f6;
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-family: Consolas, monospace;
+      color: #d6336c;
+    }
+
+    pre {
+      background: #f8f9fa;
+      padding: 10px 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 0.95rem;
+      border: 1px solid #e0e0e0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+    }
+
+    table th, table td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+
+    table th {
+      background-color: #e8eaf6;
+      color: #1e3a8a;
+    }
+
+    ul {
+      margin: 0.5rem 0 0.5rem 1.5rem;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 2rem;
+      padding: 1rem;
+      color: #555;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 1.5rem;
+      }
+      header {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>TypeScript</header>
+
+  <div class="container">
+    <h2>1. What is TypeScript?</h2>
+    <p>TypeScript is a superset of JavaScript developed by Microsoft. It adds static typing, interfaces, and compile-time error checking. TypeScript code is written in <code>.ts</code> files and compiled into JavaScript. It helps identify errors before runtime, improving code reliability.</p>
+
+    <h2>2. Key Features of TypeScript</h2>
+
+    <h3>a) Static Typing</h3>
+    <pre><code>let age: number = 20;
+let name: string = "Vaibhav";</code></pre>
+
+    <h3>b) Type Inference</h3>
+    <pre><code>let x = 10; // inferred as number</code></pre>
+
+    <h3>c) Interfaces</h3>
+    <pre><code>interface Student {
+  name: string;
+  age: number;
+}</code></pre>
+
+    <h3>d) Classes and Object-Oriented Programming</h3>
+    <p>Supports classes, inheritance, and access modifiers (<code>public</code>, <code>private</code>, <code>protected</code>).</p>
+
+    <h3>e) Generics</h3>
+    <pre><code>function identity&lt;T&gt;(value: T): T {
+  return value;
+}</code></pre>
+
+    <h3>f) Enums</h3>
+    <pre><code>enum Direction { Up, Down, Left, Right }</code></pre>
+
+    <h2>3. Advantages of TypeScript</h2>
+    <ul>
+      <li>Detects errors during development (before execution).</li>
+      <li>Improves code quality and maintainability.</li>
+      <li>Provides better tooling support (auto-completion, refactoring).</li>
+      <li>Enables object-oriented programming features.</li>
+      <li>Fully compatible with existing JavaScript libraries.</li>
+    </ul>
+
+    <h2>4. Compilation Process</h2>
+    <pre><code>tsc file.ts
+// Generates file.js</code></pre>
+
+    <h2>5. Basic Data Types in TypeScript</h2>
+    <ul>
+      <li>number</li>
+      <li>string</li>
+      <li>boolean</li>
+      <li>any</li>
+      <li>unknown</li>
+      <li>void</li>
+      <li>null, undefined</li>
+      <li>array (e.g., number[])</li>
+      <li>tuple</li>
+      <li>enum</li>
+    </ul>
+
+    <h2>6. TypeScript vs JavaScript</h2>
+    <table>
+      <tr>
+        <th>JavaScript</th>
+        <th>TypeScript</th>
+      </tr>
+      <tr>
+        <td>Dynamically typed</td>
+        <td>Statically typed</td>
+      </tr>
+      <tr>
+        <td>Errors detected at runtime</td>
+        <td>Errors detected at compile time</td>
+      </tr>
+      <tr>
+        <td>No type checking</td>
+        <td>Strong type checking</td>
+      </tr>
+      <tr>
+        <td>Only supports JavaScript features</td>
+        <td>Extends JavaScript with extra features</td>
+      </tr>
+    </table>
+
+    <h2>7. Uses of TypeScript</h2>
+    <ul>
+      <li>Used in frameworks such as Angular (default language).</li>
+      <li>Commonly used with React and Node.js.</li>
+      <li>Suitable for large projects where maintainability and type safety are important.</li>
+    </ul>
+  </div>
+
+  <footer>© 2025 TypeScript Notes | Designed by Vaibhav</footer>
+
+</body>
+</html>
